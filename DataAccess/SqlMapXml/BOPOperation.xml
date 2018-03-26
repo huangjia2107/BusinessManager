@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="BOPOperation"
+  xmlns="http://ibatis.apache.org/mapping"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!--模块配置-->
+  <alias>
+    <typeAlias alias="BOPInfo" type="DataAccess.Models.BOPInfo"/>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="SelectAllBOP" class="BOPInfo">
+      <result property="ID" column="id"/>
+      <result property="BOP_Type" column="bop_type"/>
+      <result property="BOPTypeStr" column="bop_type"/>
+      <result property="BOPDate" column="date"/>
+      <result property="BOPReason" column="reason"/>
+      <result property="Balance" column="balance"/>
+      <result property="Payment" column="payment"/>
+      <result property="DepartmentID" column="department_id"/>
+      <result property="AccountingSupervisorID" column="as_id"/>
+      <result property="CashierID" column="cashier_id"/>
+      <result property="HandlerID" column="handler_id"/>
+      <result property="PayeeID" column="payee_id"/>
+      <result property="BookKeepingID" column="bk_id"/>
+      <result property="Remark" column="remark"/>
+    </resultMap>
+
+  </resultMaps>
+
+  <!--Statement配置-->
+  <statements>
+    <!--=================================================收支==================================================-->
+
+    <!--获取所有业务类型-->
+    <select id="GetAllBOP" resultMap="SelectAllBOP" resultClass="BOPInfo">
+      <![CDATA[
+             select * from bopinfo
+             ]]>
+    </select>
+
+    <!--更新BOP数据-->
+    <update id="UpdateBOPInfo" parameterClass="BOPInfo">
+      <![CDATA[ 
+             update bopinfo set bop_type=#BOPTypeStr#,date=#BOPDate#,reason=#BOPReason#,balance=#Balance#,payment=#Payment#,department_id=#DepartmentID#,as_id=#AccountingSupervisorID#,cashier_id=#CashierID#,handler_id=#HandlerID#,payee_id=#PayeeID#,bk_id=#BookKeepingID#,remark=#Remark#
+             where id=#ID#
+             ]]>
+    </update>
+
+    <!--新建BOP数据-->
+    <insert id="InsertBOP" parameterClass="BOPInfo">
+      <![CDATA[ 
+              insert into bopinfo (bop_type,date,reason, balance, payment,department_id, as_id,cashier_id,handler_id,payee_id,bk_id, remark)
+              values (#BOPTypeStr#,#BOPDate#,#BOPReason#, #Balance#, #Payment#,#DepartmentID#, #AccountingSupervisorID#,#CashierID#,#HandlerID#,#PayeeID#,#BookKeepingID#, #Remark#)
+              ]]>
+      <selectKey resultClass="int"  type="post" property="id">
+        select LAST_INSERT_ID() as value
+      </selectKey>
+    </insert>
+
+    <!--删除BOP数据-->
+    <delete id="DeleteBOP" parameterClass="int">
+      <![CDATA[
+          delete from bopinfo where id=#ID#
+          ]]>
+    </delete>
+
+    <!--=======================================================================================================-->
+
+
+  </statements>
+</sqlMap>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="BsTypeOperation"
+  xmlns="http://ibatis.apache.org/mapping"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!--模块配置-->
+  <alias>
+    <typeAlias alias="BsTypeInfo" type="DataAccess.Models.BsTypeInfo"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="SelectAllType" class="BsTypeInfo">
+      <result property="ID" column="id"/>
+      <result property="TypeName" column="type_name"/>
+      <result property="ProcedurePrice" column="procedure_price"/>
+    </resultMap>
+
+  </resultMaps>
+
+  <!--Statement配置-->
+  <statements>
+
+    <!--=================================================业务==================================================-->
+
+    <!--获取所有业务类型-->
+    <select id="GetAllType" resultMap="SelectAllType" resultClass="BsTypeInfo">
+      <![CDATA[
+             select id,type_name,procedure_price from bs_type 
+             ]]>
+    </select>
+
+    <!--=======================================================================================================-->
+
+  </statements>
+</sqlMap>

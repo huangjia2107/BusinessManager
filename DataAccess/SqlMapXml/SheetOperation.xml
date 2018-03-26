@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="SheetOperation"
+  xmlns="http://ibatis.apache.org/mapping"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!--模块配置-->
+  <alias>
+    <typeAlias alias="SheetInfo" type="DataAccess.Models.SheetInfo"/>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="SelectAllSheet" class="SheetInfo">
+      <result property="ID" column="id"/>
+      <result property="StartDate" column="start_date"/>
+      <result property="FinishDate" column="finish_date"/>
+      <result property="SettleDate" column="settle_date"/>
+      <result property="From" column="comefrom"/>
+      <result property="AccepterID" column="accept_id"/>
+      <result property="Accepter" column="accepter"/>
+      <result property="Customer" column="customer_name"/>
+      <result property="Contacter" column="contacter"/>
+      <result property="PhoneNumber" column="phone_number"/> 
+      <result property="BSTypeID" column="bs_type_id"/>
+      <result property="BSType" column="type_name"/>
+      <result property="Price" column="price"/>
+      <result property="Remark" column="remark"/>
+    </resultMap> 
+
+  </resultMaps>
+
+  <!--Statement配置-->
+  <statements>
+    <!-- 
+             select s.id,start_date,finish_date,comefrom,accept_id,t1.employee_name as accepter,follow_id,t2.employee_name as follower,customer_name,contacter,phone_number,bs_type_id,type_name,price,remark
+             from sheet s,bs_type,employeeinfo t1,employeeinfo t2
+             where s.bs_type_id=bs_type.id and t1.id=s.accept_id and t2.id=s.follow_id
+      --> 
+    
+    <!--=================================================单==================================================-->
+
+    <!--获取所有接单数据-->
+    <select id="GetAllSheet" resultMap="SelectAllSheet" resultClass="SheetInfo">
+      <![CDATA[
+             select s.id,start_date,finish_date,settle_date,comefrom,accept_id,employeeinfo.employee_name as accepter,customer_name,contacter,phone_number,bs_type_id,type_name,price,s.remark
+             from sheet s,bs_type,employeeinfo
+             where s.bs_type_id=bs_type.id and employeeinfo.id=s.accept_id
+             ]]>
+    </select>
+    
+    <!--更新Sheet数据-->
+    <update id="UpdateSheetInfo" parameterClass="SheetInfo">
+      <![CDATA[ 
+             update sheet set start_date=#StartDate#,finish_date=#FinishDate#,settle_date=#SettleDate#,comefrom=#From#,accept_id=#AccepterID#,
+                    customer_name=#Customer#,contacter=#Contacter#,phone_number=#PhoneNumber#,bs_type_id=#BSTypeID#,price=#Price#,remark=#Remark# 
+             where id=#ID#
+             ]]>
+    </update>    
+
+    <!--新建Sheet数据-->
+    <insert id="InsertSheet" parameterClass="SheetInfo">
+      <![CDATA[ 
+              insert into sheet (start_date, finish_date,settle_date, comefrom, accept_id, customer_name,contacter,phone_number,bs_type_id,price,remark) 
+              values (#StartDate#, #FinishDate#,#SettleDate#, #From#, #AccepterID#, #Customer#,#Contacter#,#PhoneNumber#,#BSTypeID#,#Price#,#Remark#) 
+              ]]> 
+              <selectKey resultClass="int"  type="post" property="id">
+                  select LAST_INSERT_ID() as value
+              </selectKey> 
+    </insert>
+    
+    <!--删除Sheet数据-->
+    <delete id="DeleteSheet" parameterClass="int">
+      <![CDATA[
+          delete from sheet where id=#ID#
+          ]]>
+    </delete>
+
+    <!--=======================================================================================================-->
+    <!--=================================================流程==================================================-->
+
+    <!--查看账号是否存在-->
+    <select id="SheetIsExistInProcedure" resultClass="int" parameterClass="int">
+      <![CDATA[
+              select count(1) from sheet_procedure
+              where sheet_id=#id#
+      ]]>
+    </select>
+
+    <!--根据Sheet获取相应的业务流程-->
+    <select id="GetProcedureMapBySheet" resultClass="string" parameterClass="int">
+      <![CDATA[
+             select procedure_map from sheet_procedure where sheet_id=#id# 
+             ]]>
+    </select>
+
+    <!--更新Sheet相应的业务流程-->
+    <update id="UpdateProcedureMapBySheet" parameterClass="Hashtable">
+      <![CDATA[ 
+             update sheet_procedure set procedure_map=#ProcedureMap#
+             where sheet_id=#SheetID#
+             ]]>
+    </update>
+
+    <!--新建Sheet对应的流程数据-->
+    <insert id="InsertProcedureMap" parameterClass="Hashtable">
+      <![CDATA[ 
+              insert into sheet_procedure (sheet_id, procedure_map) 
+              values (#SheetID#, #ProcedureMap#) 
+              ]]>  
+              <selectKey resultClass="int"  type="post" property="id">
+                  select LAST_INSERT_ID() as value
+              </selectKey> 
+    </insert>
+
+    <!--=======================================================================================================-->
+    <!--=================================================收支==================================================-->
+
+    <!--查看账号是否存在-->
+    <select id="SheetIsExistInBOP" resultClass="int" parameterClass="int">
+      <![CDATA[
+              select count(1) from sheet_bop
+              where sheet_id=#id#
+      ]]>
+    </select>
+    
+    <!--根据Sheet获取相应收支记录-->
+    <select id="GetSheetBOPMapBySheet" resultClass="string" parameterClass="int">
+      <![CDATA[
+             select bop_map from sheet_bop where sheet_id=#id# 
+             ]]>
+    </select>
+
+    <!--更新Sheet相应收支记录-->
+    <update id="UpdateSheetBOPMapBySheet" parameterClass="Hashtable">
+      <![CDATA[ 
+             update sheet_bop set bop_map=#BOPMap#
+             where sheet_id=#SheetID#
+             ]]>
+    </update>
+
+    <!--新建Sheet对应收支记录-->
+    <insert id="InsertSheetBOPMap" parameterClass="Hashtable">
+      <![CDATA[ 
+              insert into sheet_bop (sheet_id, bop_map) 
+              values (#SheetID#, #BOPMap#) 
+              ]]>
+      <selectKey resultClass="int"  type="post" property="id">
+        select LAST_INSERT_ID() as value
+      </selectKey>
+    </insert>
+
+    <!--=======================================================================================================-->
+
+  </statements>
+</sqlMap>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="LoginWin"
+  xmlns="http://ibatis.apache.org/mapping"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!--模块配置-->  
+  <alias>
+     <typeAlias alias="Login_UserInfo" type="DataAccess.Models.UserInfo"/>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="SelectAllResult" class="Login_UserInfo">
+      <result property="UserID" column="id"/> 
+      <result property="UserName" column="username"/>
+      <result property="LoginPassWord" column="login_password"/>
+      <result property="FuncPassWord" column="func_password"/>
+	    <result property="Level" column="level"/>
+      <result property="Status" column="status"/>
+    </resultMap> 
+  </resultMaps> 
+
+  <!--Statement配置-->
+  <statements>
+    <!--========================公共==================================-->
+    <sql id="select-count">
+      select count(1) from userinfo
+    </sql>
+    <!--========================登陆==================================-->
+    <!--查看账号是否存在-->
+    <select id="User_IsExist" resultClass="int" parameterClass="string">
+      <include refid="select-count"></include>
+      <![CDATA[where username=#id#]]>
+    </select>
+	<!--根据指定账号获取UserInfo类-->
+    <select id="GetUserByCard" resultMap="SelectAllResult" resultClass="Login_UserInfo" parameterClass="string">
+      <![CDATA[select * from userinfo where username=#id#]]>
+    </select> 
+	<!--更新在线状态-->
+    <update id="UpdateStatusY" parameterClass="string">
+      <![CDATA[ update userinfo set status='Y' where username=#id# ]]>
+    </update>
+  <!--更新登录密码-->
+    <update id="UpdateLoginPassword" parameterClass="Hashtable">
+      <![CDATA[ update userinfo set login_password=#NewPassWord# where username=#CardWord# ]]>
+    </update>
+   <!--更新功能密码-->
+    <update id="UpdateFuncPassword" parameterClass="Hashtable">
+      <![CDATA[ update userinfo set func_password=#NewPassWord# where username=#CardWord# ]]>
+    </update>
+  </statements>
+</sqlMap>

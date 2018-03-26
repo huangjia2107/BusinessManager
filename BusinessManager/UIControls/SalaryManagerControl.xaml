@@ -1,0 +1,399 @@
+<UserControl x:Class="BusinessManager.UIControls.SalaryManagerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Helper="clr-namespace:BusinessManager.Helps"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded"
+             d:DesignHeight="300" d:DesignWidth="1000">
+    <UserControl.Resources>
+        <Helper:OperationEnumToBoolConverter x:Key="operationEnumToBoolConverter"/>
+        <Helper:OperationEnumToVisibilityConverter x:Key="operationEnumToVisibilityConverter"/>
+        <Helper:OperationEnumToNoVisibilityConverter x:Key="operationEnumToNoVisibilityConverter"/>
+        <Helper:IDToBoolConverter x:Key="idToBoolConverter"/>
+
+        <sys:Boolean x:Key="boolParam_true">true</sys:Boolean>
+        <sys:Boolean x:Key="boolParam_false">false</sys:Boolean>
+        
+        <CollectionViewSource x:Key="MonthViewSource" />
+        <CollectionViewSource x:Key="YearViewSource"/> 
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" IsEnabled="{Binding SelectedValue.Key, ElementName=OperationTypeList,Converter={StaticResource operationEnumToBoolConverter},ConverterParameter={StaticResource boolParam_true}}">
+                <Border BorderBrush="#FFC2C2C2" BorderThickness="1,1,1,0" Width="230" Background="{StaticResource BgColor}" IsEnabled="{Binding SelectedValue.Key, ElementName=OperationTypeList,Converter={StaticResource operationEnumToBoolConverter},ConverterParameter={StaticResource boolParam_true}}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Path Grid.Column="0" Fill="{StaticResource FgColor}" Height="15" Width="15" Stretch="Fill" Data="M45.000001,15 C28.431458,15 15.000001,28.431458 15.000001,45 15.000001,61.568542 28.431458,75 45.000001,75 61.568543,75 75.000001,61.568542 75.000001,45 75.000001,28.431458 61.568543,15 45.000001,15 z M45.000001,0 C69.852814,0 90.000001,20.147186 90.000001,45 90.000001,54.70813 86.925782,63.698238 81.697739,71.049934 L81.199387,71.733231 104.35693,94.89077 C107.18823,97.722069 107.18823,102.31252 104.35693,105.14381 L103.64982,105.85092 C100.81851,108.68222 96.228066,108.68222 93.396767,105.85092 L69.979386,82.43354 69.25454,82.910645 C62.255227,87.39798 53.931481,90 45.000001,90 20.147187,90 5.8843307E-07,69.852814 0,45 5.8843307E-07,20.147186 20.147187,0 45.000001,0 z"/>
+                        <ComboBox x:Name="FitterSearchComboBox" Grid.Column="1" Width="60" IsEditable="False" BorderBrush="{x:Null}" ItemsSource="{x:Static Helper:ResourceMap.EmployeeSearchTypeHashtable}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedIndex="0" SelectionChanged="FitterSearchComboBox_SelectionChanged" FontSize="14" />
+                        <TextBox x:Name="FitterGeneralText" Height="28" Grid.Column="2" BorderBrush="{x:Null}" FontSize="14" TextChanged="FitterGeneralText_TextChanged" />
+                    </Grid>
+                </Border>
+                <Border BorderBrush="#FFC2C2C2" BorderThickness="0,1,1,0" Width="330" Background="{StaticResource BgColor}" IsEnabled="{Binding SelectedValue.Key, ElementName=OperationTypeList,Converter={StaticResource operationEnumToBoolConverter},ConverterParameter={StaticResource boolParam_true}}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Path Grid.Column="0" Fill="{StaticResource FgColor}" Height="17" Width="18" Stretch="Fill" Data="F1 M 26.0801,46.4635L 29.7106,46.0201C 29.8132,46.9475 30.0908,47.6566 30.5432,48.1473C 30.9957,48.6381 31.5434,48.8835 32.1863,48.8835C 32.8751,48.8835 33.4558,48.6178 33.9286,48.0863C 34.4013,47.5549 34.6376,46.8377 34.6376,45.9347C 34.6376,45.0806 34.4256,44.404 34.0015,43.9051C 33.5774,43.4062 33.0601,43.1567 32.4496,43.1567C 32.0472,43.1567 31.5663,43.2448 31.0072,43.4211L 31.3394,40.2933C 32.1579,40.3177 32.7826,40.1218 33.2134,39.7056C 33.6443,39.2893 33.8597,38.7382 33.8597,38.0522C 33.8597,37.4665 33.6949,36.9994 33.3653,36.651C 33.0358,36.3025 32.5969,36.1283 32.0485,36.1283C 31.511,36.1283 31.0511,36.3276 30.6689,36.7262C 30.2866,37.1248 30.0536,37.7065 29.9699,38.4711L 26.3395,37.9464C 26.5664,36.8022 26.9081,35.8884 27.3646,35.205C 27.8211,34.5217 28.4579,33.9842 29.275,33.5923C 30.0921,33.2005 31.0072,33.0046 32.0201,33.0046C 33.757,33.0046 35.1482,33.5632 36.1935,34.6804C 37.0579,35.5969 37.4901,36.6313 37.4901,37.7837C 37.4901,39.4188 36.5852,40.7231 34.7754,41.6965C 35.8343,41.9243 36.6811,42.4354 37.3159,43.2299C 37.9507,44.0244 38.2681,44.9843 38.2681,46.1096C 38.2681,47.742 37.6799,49.133 36.5035,50.2827C 35.3271,51.4324 33.8637,52.0073 32.1133,52.0073C 30.4521,52.0073 29.0751,51.4961 27.9825,50.4739C 26.8898,49.4516 26.2557,48.1148 26.0801,46.4635 Z M 48.0047,52.0073L 45.0042,52.0073L 45.0042,38.5053C 43.6649,39.8964 42.157,40.7849 40.3412,41.4502L 40.3412,37.7553C 41.2997,37.4474 42.3405,36.8645 43.4633,36.0068C 44.5862,35.149 45.3572,34.1483 45.7762,33.0046L 48.0047,33.0046L 48.0047,52.0073 Z M 18.0025,57.0082L 18.0025,23.0033L 23.0032,23.0033L 23.0032,20.0029C 23.0033,18.898 23.8988,18.0026 25.0035,18.0026L 29.004,18.0026C 30.1087,18.0026 31.0042,18.898 31.0043,20.0026L 31.0043,23.0033L 45.0063,23.0033L 45.0062,20.0026C 45.0062,18.8979 45.9018,18.0023 47.0065,18.0023L 51.0071,18.0023C 52.1118,18.0023 53.0073,18.8979 53.0073,20.0026L 53.0074,23.0033L 58.0081,23.0033L 58.0081,57.0082L 18.0025,57.0082 Z M 21.0029,54.0078L 55.0076,54.0078L 55.0076,31.0044L 21.0029,31.0044L 21.0029,54.0078 Z M 48.5067,20.0029C 47.6781,20.0029 47.0065,20.6746 47.0065,21.5031L 47.0065,24.5036C 47.0065,25.3321 47.6781,26.0038 48.5067,26.0038L 49.5068,26.0038C 50.3354,26.0038 51.007,25.3321 51.007,24.5036L 51.007,21.5031C 51.007,20.6746 50.3354,20.0029 49.5068,20.0029L 48.5067,20.0029 Z M 26.5037,20.0029C 25.6751,20.0029 25.0035,20.6746 25.0035,21.5031L 25.0035,24.5035C 25.0035,25.3321 25.6751,26.0037 26.5037,26.0037L 27.5038,26.0037C 28.3324,26.0037 29.004,25.3321 29.004,24.5035L 29.004,21.5031C 29.004,20.6746 28.3324,20.0029 27.5038,20.0029L 26.5037,20.0029 Z"/>
+                        <TextBlock Text="年份" Foreground="{StaticResource FgColor}" Grid.Column="1" Margin="1,0,5,0" VerticalAlignment="Center" FontSize="14"/>
+                        <ComboBox x:Name="YearComboBox" Grid.Column="2" ItemsSource="{Binding Source={StaticResource YearViewSource}}" FontSize="14" BorderBrush="{x:Null}" IsEditable="False" SelectionChanged="YearComboBox_SelectionChanged" IsSynchronizedWithCurrentItem="false" />
+                        <TextBlock Grid.Column="4" Text="月份" VerticalAlignment="Center" Foreground="{StaticResource FgColor}" FontSize="14"/>
+                        <ComboBox x:Name="MonthComboBox" Grid.Column="6" ItemsSource="{Binding Source={StaticResource MonthViewSource}}" FontSize="14"  BorderBrush="{x:Null}" IsEditable="False" SelectionChanged="MonthComboBox_SelectionChanged" IsSynchronizedWithCurrentItem="False" />
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <ListBox x:Name="OperationTypeList" Grid.Column="2" ItemContainerStyle="{StaticResource OperationItem}" ItemsPanel="{StaticResource OperationItemsPanelTemplate}" SelectedIndex="0"
+                     ItemsSource="{x:Static Helper:ResourceMap.GeneralOperationTypeHasntable}" DisplayMemberPath="Value" BorderThickness="0" SelectionChanged="OperationTypeList_SelectionChanged"/>
+        </Grid>
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel VerticalAlignment="Top">
+                <DataGrid x:Name="SalaryDataGrid"
+                  AutoGenerateColumns="False" CanUserSortColumns="True" CanUserAddRows="False" HorizontalScrollBarVisibility="Disabled"
+                  IsReadOnly="{Binding SelectedValue.Key, ElementName=OperationTypeList,Converter={StaticResource operationEnumToBoolConverter},ConverterParameter={StaticResource boolParam_true}}"
+                  CanUserReorderColumns="False">
+                    <DataGrid.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Margin="0,5" Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" FontWeight="Bold" Foreground="Black"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                            <GroupStyle.Panel>
+                                <ItemsPanelTemplate>
+                                    <DataGridRowsPresenter/>
+                                </ItemsPanelTemplate>
+                            </GroupStyle.Panel>
+                            <!--<GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                 <ItemsPresenter />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>-->
+                        </GroupStyle>
+                    </DataGrid.GroupStyle>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="状态" Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding EmployeeStatus}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding AccountingSupervisorID,Converter={StaticResource stringFormatForIDConverter}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="员工" Width="80" CanUserSort="True" SortMemberPath="EmployeeName">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding EmployeeName}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding AccountingSupervisorID,Converter={StaticResource stringFormatForIDConverter}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <!--
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox SelectedValue="{Binding EmployeeID,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" FontSize="13" ToolTip="{Binding SelectedValue,Converter={StaticResource stringFormatForIDConverter},RelativeSource={RelativeSource Self}}" BorderBrush="{x:Null}" IsSynchronizedWithCurrentItem="False" SelectedIndex="0" ItemsSource="{Binding SelectionEmployeeInfoList}" DisplayMemberPath="EmployeeName" ItemContainerStyle="{StaticResource EmployeeComboBoxItem}" SelectedValuePath="ID" IsEditable="False">
+                                    </ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                            -->
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="性别" Width="80" CanUserSort="True" SortMemberPath="EmployeeSex">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding EmployeeSex}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding AccountingSupervisorID,Converter={StaticResource stringFormatForIDConverter}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="所属部门" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DepartmentName}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding AccountingSupervisorID,Converter={StaticResource stringFormatForIDConverter}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="基本工资" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding BasicSalary}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding BasicSalary,Mode=TwoWay}" BorderBrush="{x:Null}" BorderThickness="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="餐补" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding MealSupplement}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding MealSupplement,Mode=TwoWay}" BorderBrush="{x:Null}" BorderThickness="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="社保" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding SSB}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding SSB,Mode=TwoWay}" BorderBrush="{x:Null}" BorderThickness="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="其他补贴" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding OtherBenefits}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding OtherBenefits,Mode=TwoWay}" BorderBrush="{x:Null}" BorderThickness="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="奖金" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Bounty}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Bounty,Mode=TwoWay}" BorderBrush="{x:Null}" BorderThickness="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="其他扣减" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding OtherDeduction}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding OtherDeduction,Mode=TwoWay}" BorderBrush="{x:Null}" BorderThickness="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="业务提成" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Commission}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+                                        <Button x:Name="FlushCommission" Grid.Column="2" Margin="3,0" Style="{StaticResource IconBtnStyle}" Cursor="Hand"  ToolTip="刷新当前项的提成金额" Click="FlushCommission_Click" Visibility="{Binding SelectedValue.Key,ElementName=OperationTypeList,Converter={StaticResource operationEnumToNoVisibilityConverter}}">
+                                            <Path Width="20" Height="20" Stretch="Fill" Fill="{Binding Foreground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" Data="M35.028999,3.9430006 C17.892157,3.9430001 4.0000005,17.834932 3.9999998,34.9715 4.0000005,52.108067 17.892157,66 35.028999,66 52.165844,66 66.057999,52.108067 66.057999,34.9715 66.057999,17.834932 52.165844,3.9430001 35.028999,3.9430006 z M35,0 C54.329967,0 70,15.670034 70,35 70,54.329967 54.329967,70 35,70 15.670034,70 0,54.329967 0,35 0,15.670034 15.670034,0 35,0 z M55.007,15 L55.006542,33.589442 37.572159,33.589655 44.665507,25.931355 44.309516,25.565982 C42.377645,23.582183 40.704987,21.965671 35.348769,21.913803 28.015815,21.842792 22.917756,26.375502 22.056772,32.387369 L16.186065,30.229433 C17.678303,21.141225 25.197462,15.661925 35.457043,15.661925 40.670929,15.661925 45.406642,17.754109 48.904135,21.161768 L48.997213,21.254645 z M15.159879,55 L15.007,36.411215 32.44145,36.260798 25.411245,43.979938 25.770251,44.342231 C27.718493,46.309316 29.404491,47.91136 34.761158,47.917081 42.094727,47.924913 46.587578,42.884483 48.118273,36.83288 L53.823846,39.269408 C51.459928,47.863855 44.964075,54.081279 34.704453,54.169669 29.490546,54.214588 24.737557,52.163278 21.211942,48.785873 L21.118097,48.693801 z"/>
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <!--
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Commission,Mode=TwoWay}" BorderBrush="{x:Null}" BorderThickness="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                            -->
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="实发工资" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding NetPayroll}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <!--
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding NetPayroll,Mode=TwoWay}" BorderBrush="{x:Null}" BorderThickness="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate> 
+                            -->
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="备注" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Remark}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Remark,Mode=TwoWay}" BorderBrush="{x:Null}" BorderThickness="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </ScrollViewer>
+        <Grid Grid.Row="2" Height="30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.6"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.6"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.6"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.6"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="AddBtn" Grid.Column="0"  BorderThickness="0.6" Style="{StaticResource BtnStyle}" Cursor="Hand"  ToolTip="添加" Visibility="{Binding SelectedValue.Key,ElementName=OperationTypeList,Converter={StaticResource operationEnumToNoVisibilityConverter}}" Click="AddBtn_Click">
+                <Path Width="20" Height="20" Stretch="Fill" Fill="{Binding Foreground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" Data="F1 M 39,46L 46,46L 46,39L 51,39L 51,46L 58,46L 58,51L 51,51L 51,58L 46,58L 46,51L 39,51L 39,46 Z M 31,25L 38,25L 38,18L 43,18L 43,25L 50,25L 50,30L 43,30L 43,37L 38,37L 38,30L 31,30L 31,25 Z M 18,39L 25,39L 25,32L 30,32L 30,39L 37,39L 37,44L 30,44L 30,51L 25,51L 25,44L 18,44L 18,39 Z"/>
+            </Button>
+            <Button x:Name="ClearBtn" Grid.Column="2"  BorderThickness="0.6" Style="{StaticResource BtnStyle}" Cursor="Hand"  ToolTip="清空" Visibility="{Binding SelectedValue.Key,ElementName=OperationTypeList,Converter={StaticResource operationEnumToNoVisibilityConverter}}" Click="ClearBtn_Click">
+                <Path Width="20" Height="20" Stretch="Fill" Fill="{Binding Foreground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" Data="F1 M17,2.0910716 C24.761499,1.2201797 53.795077,26.462324 57.261926,30 61.283137,27.144705 87.524799,6.0009238 112.48433,3 112.94794,3.1928839 113.12278,3.5303927 113.12278,3.8633927 113.07072,4.3995821 112.48139,4.7638684 112.04911,4.9089284 98.077111,11.283928 86.618,20.243 75,29 71.664,31.514 65.279679,38.545569 65.279679,38.878569 65.612679,38.878569 95.356775,69.412714 95.901775,95.635714 95.663345,95.995171 95.24589,96.109011&#xa;94.884022,95.795089 91.214022,83.843089 67.00031,53.283414 57.455524,47.573214 53.576906,51.826271 35.237316,70.451836 30,83 26.267611,91.942487 31.768193,103.09817 16,103.54464 13.400179,103.28031 10.649888,101.91554 8.4284052,98.366086 5.0624052,94.077086 7.1375169,83.768719 10,78 18.310982,61.251006 46.178622,38.482997 46.178622,38.149997 42.671132,34.613168 24.602102,24.504843 14,20 8.203523,17.537072&#xa;0.43942972,13.9102 2.3942817,9.8785714 3.8424574,6.2602 12.977121,2.3732431 17,2.0910716 z"/>
+            </Button>
+            <Button x:Name="SaveBtn" Grid.Column="4"  BorderThickness="0.6" Style="{StaticResource BtnStyle}" Cursor="Hand"  ToolTip="保存" Visibility="{Binding SelectedValue.Key,ElementName=OperationTypeList,Converter={StaticResource operationEnumToNoVisibilityConverter}}" Click="SaveBtn_Click">
+                <Path Width="20" Height="20" Stretch="Fill" Fill="{Binding Foreground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" Data="F1 M 20.5833,20.5833L 55.4167,20.5833L 55.4167,55.4167L 45.9167,55.4167L 45.9167,44.3333L 30.0833,44.3333L 30.0833,55.4167L 20.5833,55.4167L 20.5833,20.5833 Z M 33.25,55.4167L 33.25,50.6667L 39.5833,50.6667L 39.5833,55.4167L 33.25,55.4167 Z M 26.9167,23.75L 26.9167,33.25L 49.0833,33.25L 49.0833,23.75L 26.9167,23.75 Z"/>
+            </Button>
+            <Button x:Name="RestoreBtn" Grid.Column="6"  BorderThickness="0.6" Style="{StaticResource BtnStyle}" Cursor="Hand"  ToolTip="还原" Visibility="{Binding SelectedValue.Key,ElementName=OperationTypeList,Converter={StaticResource operationEnumToNoVisibilityConverter}}" Click="RestoreBtn_Click">
+                <Path Width="20" Height="20" Stretch="Fill" Fill="{Binding Foreground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" Data="F1 M 19,57L 34,57L 34,42L 28.8076,47.1924C 26.4551,44.8399 25,41.5899 25,38C 25,30.8203 30.8203,25 38,25C 45.1797,25 51,30.8203 51,38C 51,42.6137 48.5965,46.6661 44.9734,48.9734L 49.2862,53.2862C 53.9658,49.8254 57,44.2671 57,38C 57,27.5066 48.4934,19 38,19C 27.5066,19 19,27.5066 19,38C 19,43.2467 21.1266,47.9967 24.565,51.435L 19,57 Z"/>
+            </Button>
+            <Button x:Name="FlushAllBtn" Grid.Column="8"  BorderThickness="0.6" Style="{StaticResource BtnStyle}" Cursor="Hand"  ToolTip="刷新当前页所有项的提成金额" Visibility="{Binding SelectedValue.Key,ElementName=OperationTypeList,Converter={StaticResource operationEnumToNoVisibilityConverter}}" Click="FlushAllBtn_Click">
+                <Path Width="20" Height="20" Stretch="Fill" Fill="{Binding Foreground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" Data="M2.9505676,36.439814L21.343939,36.439814C20.303749,39.110218 19.703638,42.000652 19.703638,45.041111 19.703638,47.101423 19.993691,49.091722 20.493784,50.992008L2.9505676,50.992008C1.3202689,50.992008,2.6905189E-05,49.67181,2.6147463E-05,48.041565L2.6147463E-05,39.400261C2.6905189E-05,37.760014,1.3202689,36.439814,2.9505676,36.439814z M43.691771,27.403506C43.883024,27.398506,44.075529,27.398506,44.270537,27.403506L44.280539,27.403506 44.300539,27.403506C46.750612,27.423509,49.070685,27.943573,51.18075,28.873688L51.25075,28.913692C57.48094,31.684034 61.801073,37.954807 61.73107,45.205702 61.631067,54.946903 53.660826,62.767868 43.920527,62.667858 36.320295,62.587849 29.900101,57.707245 27.500027,50.946411L33.810221,49.846275C35.580275,53.706753 39.450392,56.407085 43.980528,56.457092 50.230719,56.517097 55.340876,51.496479 55.400877,45.245708 55.470881,39.004938 50.450728,33.884306 44.200537,33.824298 43.670519,33.824298 43.150503,33.864304 42.64049,33.924311L42.630488,33.884306C40.950438,34.104332,39.390391,34.694407,38.030348,35.584515L40.200415,37.634769C40.33042,37.754784 40.380419,37.944807 40.310415,38.104826 40.250414,38.274847 40.100412,38.384861 39.920405,38.394863L34.650244,38.674896 29.970102,38.924927 29.940102,38.924927C29.810097,38.924927 29.700094,38.86492 29.61009,38.77491 29.520088,38.674896 29.480087,38.54488 29.510088,38.404863L30.260111,34.234348 31.340143,28.333621C31.370144,28.153599 31.500149,28.013581 31.670155,27.983578 31.850159,27.943573 32.030165,28.013581 32.130167,28.1636L33.86022,30.703914C36.260294,28.9737 39.11038,27.853561 42.200476,27.513519 42.240477,27.503518 42.280478,27.503518 42.320479,27.503518 42.590487,27.473515 42.850496,27.453512 43.120504,27.43351 43.310507,27.418509 43.500513,27.408506 43.691771,27.403506z M2.9499468,18.059961L44.308165,18.059961C45.938101,18.059961,47.268,19.380206,47.268,21.020318L47.268,21.830486C45.968126,21.610486 44.638106,21.470574 43.278181,21.470575 34.818579,21.470574 27.428881,25.931133 23.269024,32.611961L2.9499468,32.611961C1.3200119,32.611961,-1.251392E-07,31.291716,0,29.661614L0,21.020318C-1.251392E-07,19.380206,1.3200119,18.059961,2.9499468,18.059961z M8.6996557,3.927825C6.8497344,3.927825 5.3397986,5.4269943 5.3397986,7.2759705 5.3397986,9.1249466 6.8497344,10.634111 8.6996557,10.634111 10.549576,10.634111 12.049512,9.1249466 12.049512,7.2759705 12.049512,5.4269943 10.549576,3.927825 8.6996557,3.927825z M2.949901,0L44.308134,0C45.938063,0,47.268007,1.3292637,47.268007,2.9583616L47.268007,11.603574C47.268007,13.232672,45.938063,14.551941,44.308134,14.551941L2.949901,14.551941C1.3199705,14.551941,2.6895254E-05,13.232672,2.6147463E-05,11.603574L2.6147463E-05,2.9583616C2.6895254E-05,1.3292637,1.3199705,0,2.949901,0z"/>
+            </Button>
+            <Grid Grid.ColumnSpan="9">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.6"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="ViewBSBtn" Grid.Column="0" BorderThickness="0.6" Style="{StaticResource BtnStyle}" Cursor="Hand"  ToolTip="预览业务明细" Visibility="{Binding SelectedValue.Key,ElementName=OperationTypeList,Converter={StaticResource operationEnumToVisibilityConverter}}" Click="ViewBSBtn_Click">
+                    <Path Width="22" Height="18" Stretch="Fill" Fill="{Binding Foreground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" Data="F1 M 16,25L 60,25L 60,29L 56,29L 56,32L 60,32L 60,36L 56,36L 56,39L 60,39L 60,43L 56,43L 56,46L 60,46L 60,50L 56,50L 56,53L 52,53L 52,50L 44,50L 44,53L 40,53L 40,50L 32,50L 32,53L 28,53L 28,50L 20,50L 20,53L 16,53L 16,25 Z M 52,46L 52,43L 44,43L 44,46L 52,46 Z M 40,46L 40,43L 32,43L 32,46L 40,46 Z M 28,46L 28,43L 20,43L 20,46L 28,46 Z M 32,32L 40,32L 40,29.0001L 32,29.0001L 32,32 Z M 43.9999,32L 51.9999,32L 51.9999,29L 43.9999,29L 43.9999,32 Z M 20,29L 20,32L 28,32L 28,29L 20,29 Z M 20,36L 20,39L 28,39L 28,36L 20,36 Z M 32,36L 32,39L 40,39L 40,36L 32,36 Z M 44,36L 44,39L 52,39L 52,36L 44,36 Z"/>
+                </Button>
+                <Button x:Name="PrintBtn" Grid.Column="2" BorderThickness="0.6" Style="{StaticResource BtnStyle}" Cursor="Hand"  ToolTip="打印" Visibility="{Binding SelectedValue.Key,ElementName=OperationTypeList,Converter={StaticResource operationEnumToVisibilityConverter}}" Click="ProcedurePrint_Click">
+                    <Path Width="20" Height="20" Stretch="Fill" Fill="{Binding Foreground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" Data="F1 M 25,27L 25,17L 51,17L 51,27L 47,27L 47,21L 29,21L 29,27L 25,27 Z M 16,28L 60,28L 60,51L 52,51L 52,46L 55,46L 55,33L 21,33L 21,46L 24,46L 24,51L 16,51L 16,28 Z M 25,39L 28,39L 28,52L 35,52L 35,59L 48,59L 48,39L 51,39L 51,62L 33,62L 25,54L 25,39 Z M 46,55L 38,55L 38,52L 46,52L 46,55 Z M 46,49L 30,49L 30,46L 46,46L 46,49 Z M 46,43L 30,43L 30,40L 46,40L 46,43 Z"/>
+                </Button>
+            </Grid>
+        </Grid>
+
+        <Grid x:Name="ProcedureInfoPanel" Grid.RowSpan="3" Background="#99000000" Margin="-10" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1" Width="700" Height="400">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/> 
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="ProcedureClose" Grid.Column="3" Style="{StaticResource DeleteStyle}" Cursor="Hand"  ToolTip="关闭" Width="40" Click="ProcedureClose_Click">
+                        <Path Width="28" Height="28" Stretch="Fill" Fill="{Binding Foreground,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" Data="M5.0000038,0 C6.2796135,0 7.559227,0.48815536 8.5355377,1.4644661 L49.790267,42.719195 91.044998,1.4644661 C92.997612,-0.48815155 96.163445,-0.48815536 98.116066,1.4644661 100.06869,3.4170837 100.06868,6.5829163 98.116066,8.5355301 L56.861335,49.790263 98.116066,91.044994 C100.06869,92.997612 100.06869,96.163441 98.116066,98.116062 96.163441,100.06869 92.997616,100.06868 91.044994,98.116066 L49.790265,56.861333 8.5355377,98.116062 C6.5829163,100.06868 3.4170914,100.06868 1.4644699,98.116062 -0.48815155,96.163441 -0.48815155,92.997616 1.4644699,91.044994 L42.719197,49.790266 1.4644699,8.5355377 C-0.48815536,6.5829163 -0.48815536,3.4170914 1.4644699,1.4644661 2.4407806,0.48815918 3.7203941,0 5.0000038,0 z"/>
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="1" Background="{StaticResource BgColor}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Text="{Binding EmployeeName,StringFormat=员工：{0}}" VerticalAlignment="Center" FontSize="15" Foreground="{StaticResource FgColor}"/>
+                    <TextBlock Grid.Column="2" HorizontalAlignment="Center" Text="{Binding DepartmentName,StringFormat=部门：{0}}" VerticalAlignment="Center" FontSize="15" Foreground="{StaticResource FgColor}"/>
+                    <TextBlock Grid.Column="3" HorizontalAlignment="Center" Text="{Binding CurrentDate,StringFormat=时间：{0:yyyy年 MM月}}" VerticalAlignment="Center" FontSize="15" Foreground="{StaticResource FgColor}"/>
+                    <TextBlock Grid.Column="4" HorizontalAlignment="Right" Text="{Binding TotalPrice,StringFormat=总提成：{0}}" VerticalAlignment="Center" FontSize="15" Foreground="{StaticResource FgColor}"/>
+                </Grid>
+                <ScrollViewer Grid.Row="2" Background="{StaticResource BgColor}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <StackPanel >
+                        <DataGrid x:Name="ProcedureDataGrid" VerticalAlignment="Top" ItemsSource="{Binding SalaryProcedureInfoList}"
+                  AutoGenerateColumns="False" CanUserSortColumns="True" CanUserAddRows="False" HorizontalScrollBarVisibility="Disabled"
+                  IsReadOnly="{Binding SelectedValue.Key, ElementName=OperationTypeList,Converter={StaticResource operationEnumToBoolConverter},ConverterParameter={StaticResource boolParam_true}}"
+                  CanUserReorderColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="单号" Width="80" CanUserSort="True" SortMemberPath="SheetID">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding SheetID}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding AccountingSupervisorID,Converter={StaticResource stringFormatForIDConverter}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="接单时间" Width="110" CanUserSort="True" SortMemberPath="SettleDate">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding SettleDate,StringFormat={}{0:yyyy-MM-dd}}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding AccountingSupervisorID,Converter={StaticResource stringFormatForIDConverter}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="业务类型" Width="110">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding BSType}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding AccountingSupervisorID,Converter={StaticResource stringFormatForIDConverter}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="客户名称" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Customer}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="提成流程" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ProcedureName}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="金额" Width="80">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Price}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

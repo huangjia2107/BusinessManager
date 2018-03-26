@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="EmployeeOperation"
+  xmlns="http://ibatis.apache.org/mapping"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!--模块配置-->
+  <alias> 
+    <typeAlias alias="EmployeeInfo" type="DataAccess.Models.EmployeeInfo"/> 
+  </alias>
+
+  <resultMaps> 
+
+    <resultMap id="SelectAllEmployee" class="EmployeeInfo">
+      <result property="ID" column="id"/>
+      <result property="EmployeeName" column="employee_name"/>
+      <result property="EmployeeSexStr" column="employee_sex"/>
+      <result property="EmployeeFrom" column="employee_from"/>
+      <result property="EmployeeBirthday" column="employee_birthday"/>
+      <result property="EntryTime" column="entry_time"/>
+      <result property="BasicSalary" column="basic_salary"/>
+      <result property="StatusID" column="employee_status"/>
+      <result property="Remark" column="remark"/>
+      <result property="DepartmentID" column="department_id"/>
+      <result property="PostID" column="post_id"/>
+    </resultMap> 
+
+  </resultMaps>
+
+  <!--Statement配置-->
+  <statements>
+    
+    <!--=================================================雇员==================================================-->
+
+    <!--获取所有雇员信息-->
+    <select id="GetAllEmployee" resultMap="SelectAllEmployee" resultClass="EmployeeInfo">
+      <![CDATA[
+             select * from employeeinfo 
+             ]]>
+    </select>
+
+    <!--更新雇员数据-->
+    <update id="UpdateEmployeeInfo" parameterClass="EmployeeInfo">
+      <![CDATA[ 
+             update employeeinfo set employee_name=#EmployeeName#, employee_sex=#EmployeeSexStr#,
+                                     employee_from=#EmployeeFrom#, employee_birthday=#EmployeeBirthday#,
+                                     entry_time=#EntryTime#,basic_salary=#BasicSalary#,employee_status=#StatusID#,
+                                     remark=#Remark#,department_id=#DepartmentID#, post_id=#PostID#
+             where id=#ID#
+             ]]>
+    </update>
+
+    <!--新建BOP数据-->
+    <insert id="InsertEmployee" parameterClass="EmployeeInfo">
+      <![CDATA[ 
+              insert into employeeinfo (employee_name,employee_sex,employee_from,employee_birthday,entry_time,basic_salary,employee_status,remark,department_id, post_id)
+              values (#EmployeeName#,#EmployeeSexStr#,#EmployeeFrom#,#EmployeeBirthday#,#EntryTime#,#BasicSalary#,#StatusID#,#Remark#,#DepartmentID#, #PostID#)
+              ]]>
+      <selectKey resultClass="int"  type="post" property="id">
+        select LAST_INSERT_ID() as value
+      </selectKey>
+    </insert>
+
+    <!--删除BOP数据-->
+    <delete id="DeleteEmployee" parameterClass="int">
+      <![CDATA[
+          delete from employeeinfo where id=#ID#
+          ]]>
+    </delete>
+
+    <!--=======================================================================================================--> 
+
+  </statements>
+</sqlMap>

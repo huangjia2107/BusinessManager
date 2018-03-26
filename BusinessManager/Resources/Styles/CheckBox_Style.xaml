@@ -1,0 +1,111 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Controls="clr-namespace:BusinessManager.Resources.Controls">
+
+    <!--最大化按钮--> 
+    <SolidColorBrush x:Key="MaxButton_MouseOver_FgColor">#FFFFFFFF</SolidColorBrush>
+    <SolidColorBrush x:Key="MaxButton_MouseOver_BgColor">#FF3665B3</SolidColorBrush>
+    <SolidColorBrush x:Key="MaxButton_Pressed_FgColor">#FFFFFFFF</SolidColorBrush>
+    <SolidColorBrush x:Key="MaxButton_Pressed_BgColor">#FF3D6099</SolidColorBrush>
+
+    <Style x:Key="PathCheckBoxStyle" TargetType="{x:Type Controls:PathCheckBox}">
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="ToolTip" Value="{Binding UnCheckedToolTip,RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Controls:PathCheckBox}">
+                    <Border x:Name="border" 
+                            Padding="{TemplateBinding Padding}" 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <Grid Background="#00000000">
+                            <Path x:Name="CheckedPath"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Stretch="{TemplateBinding Stretch}" 
+                                  Data="{TemplateBinding CheckedData}" 
+                                  Fill="{TemplateBinding CheckedFill}"
+                                  Width="{TemplateBinding CheckedDataWidth}"
+                                  Height="{TemplateBinding CheckedDataHeight}"  
+                                  Visibility="Collapsed"
+                                  />
+                            <Path x:Name="UnCheckedPath"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Stretch="{TemplateBinding Stretch}" 
+                                  Data="{TemplateBinding UnCheckedData}" 
+                                  Fill="{TemplateBinding UnCheckedFill}"
+                                  Width="{TemplateBinding UnCheckedDataWidth}"
+                                  Height="{TemplateBinding UnCheckedDataHeight}"  
+                                  Visibility="Visible"
+                                  />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Visibility" TargetName="CheckedPath" Value="Visible"/>
+                            <Setter Property="Visibility" TargetName="UnCheckedPath" Value="Collapsed"/>
+                            <Setter Property="ToolTip" Value="{Binding CheckedToolTip,RelativeSource={RelativeSource Self}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--最大化按钮样式-->
+    <Style x:Key="MaxBtnStyle" BasedOn="{StaticResource PathCheckBoxStyle}" TargetType="{x:Type Controls:PathCheckBox}">
+        <Setter Property="CheckedFill" Value="{DynamicResource FgColor}"/>
+        <Setter Property="UnCheckedFill" Value="{DynamicResource FgColor}"/>
+        <Style.Triggers>
+            <MultiTrigger >
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver"   Value="True" />
+                    <Condition Property="IsBgTransparent"  Value="False" />
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters >
+                    <Setter Property="Background" Value="{StaticResource MaxButton_MouseOver_BgColor}"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <MultiTrigger >
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsPressed"   Value="True" />
+                    <Condition Property="IsBgTransparent"  Value="False" />
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters >
+                    <Setter Property="Background" Value="{StaticResource MaxButton_Pressed_BgColor}"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <Trigger Property="IsBgTransparent" Value="True">
+                <Setter Property="Background" Value="Transparent"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="CheckedFill" Value="{StaticResource MaxButton_MouseOver_FgColor}"/>
+                <Setter Property="UnCheckedFill" Value="{StaticResource MaxButton_MouseOver_FgColor}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="CheckedFill" Value="{StaticResource MaxButton_Pressed_FgColor}"/>
+                <Setter Property="UnCheckedFill" Value="{StaticResource MaxButton_Pressed_FgColor}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="CheckedFill" Value="{DynamicResource EnabledColor}"/>
+                <Setter Property="UnCheckedFill" Value="{DynamicResource EnabledColor}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="MarkBtnStyle" BasedOn="{StaticResource PathCheckBoxStyle}" TargetType="{x:Type Controls:PathCheckBox}">
+        <Setter Property="CheckedFill" Value="Red"/>
+        <Setter Property="UnCheckedFill" Value="#FF808080"/>
+        <Setter Property="CheckedToolTip" Value="可回收"/>
+        <Setter Property="UnCheckedToolTip" Value="不可回收"/>
+        <Setter Property="Stretch" Value="Fill"/>
+        <Setter Property="CheckedData" Value="F1 M 17.4167,32.25L 32.9107,32.25L 38,18L 43.0893,32.25L 58.5833,32.25L 45.6798,41.4944L 51.4583,56L 38,48.0833L 26.125,56L 30.5979,41.7104L 17.4167,32.25 Z"/>
+        <Setter Property="UnCheckedData" Value="F1 M 17.4167,32.25L 32.9107,32.25L 38,18L 43.0893,32.25L 58.5833,32.25L 45.6798,41.4944L 51.4583,56L 38,48.0833L 26.125,56L 30.5979,41.7104L 17.4167,32.25 Z"/>
+    </Style>
+    
+</ResourceDictionary>

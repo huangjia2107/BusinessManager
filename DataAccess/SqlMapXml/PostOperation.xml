@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="PostOperation"
+  xmlns="http://ibatis.apache.org/mapping"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!--模块配置-->
+  <alias> 
+    <typeAlias alias="PostInfo" type="DataAccess.Models.PostInfo"/> 
+  </alias>
+
+  <resultMaps> 
+
+    <resultMap id="SelectAllPost" class="PostInfo">
+      <result property="ID" column="id"/>
+      <result property="PostName" column="post_name"/>
+    </resultMap> 
+
+  </resultMaps>
+
+  <!--Statement配置-->
+  <statements>
+    
+    <!--=================================================部门==================================================-->
+
+    <!--获取所有部门信息-->
+    <select id="GetAllPost" resultMap="SelectAllPost" resultClass="PostInfo">
+      <![CDATA[
+             select id,post_name from postinfo 
+             ]]>
+    </select>
+
+    <!--=======================================================================================================--> 
+
+  </statements>
+</sqlMap>

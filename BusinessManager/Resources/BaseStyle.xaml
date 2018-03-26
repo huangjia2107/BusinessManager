@@ -1,0 +1,27 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--===============================================通用色========================================================-->
+    <SolidColorBrush x:Key="BgColor">#FFF1F1F1</SolidColorBrush>
+    <SolidColorBrush x:Key="FgColor">#FF505356</SolidColorBrush>
+    <SolidColorBrush x:Key="BorderColor">#FF505356</SolidColorBrush>
+    <SolidColorBrush x:Key="EnabledColor">#FFCCCCCC</SolidColorBrush> 
+
+    <!--============================================控件样式文件===========================================================-->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Styles/Button_Style.xaml"/>
+        <ResourceDictionary Source="Styles/RadioButton_Style.xaml"/>
+        <ResourceDictionary Source="Styles/TextBox_Style.xaml"/>
+        <ResourceDictionary Source="Styles/PasswordBox_Style.xaml"/>
+        <ResourceDictionary Source="Styles/TabControl_Style.xaml"/>
+        <ResourceDictionary Source="Styles/DataGrid_Style.xaml"/>
+        <ResourceDictionary Source="Styles/ListBox_Style.xaml"/>
+        <ResourceDictionary Source="Styles/ComboBox_Style.xaml"/>
+        <ResourceDictionary Source="Styles/ScrollViewer_Style.xaml"/>
+        <ResourceDictionary Source="Styles/ProgressRing_Style.xaml"/>
+        <ResourceDictionary Source="Styles/CheckBox_Style.xaml"/>
+        <ResourceDictionary Source="Styles/TextBlock_Style.xaml"/>
+        <ResourceDictionary Source="Styles/UserWindow_Style.xaml"/>
+    </ResourceDictionary.MergedDictionaries> 
+
+</ResourceDictionary>

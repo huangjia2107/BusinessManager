@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="SalaryOperation"
+  xmlns="http://ibatis.apache.org/mapping"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!--模块配置-->
+  <alias> 
+    <typeAlias alias="SalaryInfo" type="DataAccess.Models.SalaryInfo"/> 
+  </alias>
+
+  <resultMaps> 
+
+    <resultMap id="SelectAllSalary" class="SalaryInfo">
+      <result property="ID" column="id"/>
+      <result property="EmployeeID" column="employee_id"/>
+      <result property="Year" column="year"/>
+      <result property="Month" column="month"/>
+      <result property="BasicSalary" column="basic_salary"/>
+      <result property="Commission" column="commission"/>
+      <result property="MealSupplement" column="meal_supplement"/>
+      <result property="SSB" column="ssb"/>
+      <result property="OtherBenefits" column="other_benefits"/>
+      <result property="Bounty" column="bounty"/>
+      <result property="OtherDeduction" column="other_deduction"/>
+      <result property="NetPayroll" column="net_payroll"/>
+      <result property="Remark" column="remark"/>
+    </resultMap> 
+
+  </resultMaps>Employee
+
+  <!--Statement配置-->
+  <statements>
+    
+    <!--=================================================工资==================================================-->
+
+    <!--获取所有工资信息-->
+    <select id="GetAllSalary" resultMap="SelectAllSalary" resultClass="SalaryInfo">
+      <![CDATA[
+             select * from salaryinfo 
+             ]]>
+    </select>
+
+    <!--更新雇员数据-->
+    <update id="UpdateSalaryInfo" parameterClass="SalaryInfo">
+      <![CDATA[  
+             update salaryinfo set employee_id=#EmployeeID#, year=#Year#, month=#Month#,
+                                   basic_salary=#BasicSalary#, commission=#Commission#,
+                                   meal_supplement=#MealSupplement#, ssb=#SSB#,
+                                   other_benefits=#OtherBenefits#, bounty=#Bounty#,
+                                   other_deduction=#OtherDeduction#, net_payroll=#NetPayroll#,
+                                   remark=#Remark#
+             where id=#ID#
+             ]]>
+    </update>
+
+    <!--新建BOP数据-->
+    <insert id="InsertSalary" parameterClass="SalaryInfo">
+      <![CDATA[          
+              insert into salaryinfo (employee_id ,year, month ,basic_salary, commission,meal_supplement,ssb,other_benefits,bounty, other_deduction,net_payroll ,remark)
+              values (#EmployeeID#,#Year#, #Month#, #BasicSalary#, #Commission#,#MealSupplement#,#SSB#, #OtherBenefits#, #Bounty#,#OtherDeduction#,#NetPayroll#,#Remark#)
+              ]]>
+      <selectKey resultClass="int"  type="post" property="id">
+        select LAST_INSERT_ID() as value
+      </selectKey>
+    </insert>
+
+    <!--删除BOP数据-->
+    <delete id="DeleteSalary" parameterClass="int">
+      <![CDATA[
+          delete from salaryinfo where id=#ID#
+          ]]>
+    </delete>
+
+    <!--=======================================================================================================--> 
+
+  </statements>
+</sqlMap>
